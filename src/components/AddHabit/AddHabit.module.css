@@ -1,0 +1,10 @@
+.formContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-around;
+    width: 50%;
+    align-items: baseline;
+    margin-left: 20%;
+}

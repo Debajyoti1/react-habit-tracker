@@ -1,0 +1,28 @@
+.habitsContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.habitItem {
+    display: flex;
+    width: 40%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px dashed aqua;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.habitItem > p {
+    padding: 10px;
+    max-width: 80%;
+    overflow-wrap: break-word;
+    font-weight: 600;
+}
