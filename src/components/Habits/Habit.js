@@ -7,20 +7,14 @@ const Habit = () => {
     const { habits } = useSelector(habitsSelector)
     const dispatch = useDispatch()
     useEffect(() => {
+        console.log(habits);
         dispatch(fetchAllhabits(habits))
     }, [])
     // console.log(habits);
     return (<>
         <h1 className="text-center">Habits</h1>
         <div className={styles.habitsContainer}>
-            <div className={styles.habitItem}>
-                <p>Habit demo</p>
-                <button className='btn btn-danger'>Delete</button>
-            </div>
-            <div className={styles.habitItem}>
-                <p>Habit demo</p>
-                <button className='btn btn-danger'>Delete</button>
-            </div>
+            {habits.length==0 && <h3>No Habit Found</h3>}
             {habits.map((h) =>
             (
                 <HabitItem key={h.id} habit={h} />)

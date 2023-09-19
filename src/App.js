@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import NavBar from './components/NavBar/NavBar';
 import Habit from './components/Habits/Habit';
 import AddHabit from './components/AddHabit/AddHabit';
+import DashBoard from './components/DashBoard/DashBoard';
+import { notificationActions, notificationSelector } from './redux/reducers/notoficationReducer';
 
 
 function App() {
@@ -16,8 +18,22 @@ function App() {
   const dispatch = useDispatch();
 
   // Select success and error notifications from the Redux store
-  // const { success_notification, error_notification } = useSelector(notificationSelector);
+  const { success_notification, error_notification } = useSelector(notificationSelector);
 
+    // Use useEffect to handle notifications
+    useEffect(() => {
+      // Display error notification if it exists
+      if (error_notification) {
+        toast.error(error_notification);
+      } 
+      // Display success notification if it exists
+      else if (success_notification) {
+        toast.success(success_notification);
+      }
+      // Reset the notification state after displaying it
+      dispatch(notificationActions.reset());
+    }, [success_notification, error_notification]);
+  
 
   // Create a BrowserRouter instance for routing
   const browserRouter = createBrowserRouter([
@@ -36,6 +52,12 @@ function App() {
           path: "add-habit",
           element: (
             <AddHabit />
+          ),
+        },
+        {
+          path: "dashboard",
+          element: (
+            <DashBoard />
           ),
         },
       ]

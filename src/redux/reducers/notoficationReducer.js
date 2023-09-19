@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { habitsActions } from "./habitReducer";
 
 const initialState = {
   error_notification: null,
@@ -14,16 +15,15 @@ const notificationSlice = createSlice({
       state.success_notification = null;
     },
   },
-  // extraReducers: (builder) => {
-  //   // builder.addCase(albumActions.setNotification, (state, action) => {
-  //   //   if (action.payload.success) {
-  //   //     state.success_notification = action.payload.success;
-  //   //   } else if (action.payload.error) {
-  //   //     state.error_notification = action.payload.error;
-  //   //   }
-  //   // })
-
-  // }
+  extraReducers: (builder) => {
+    builder.addCase(habitsActions.setNotification, (state, action) => {
+      if (action.payload.success) {
+        state.success_notification = action.payload.success;
+      } else if (action.payload.error) {
+        state.error_notification = action.payload.error;
+      }
+    })
+  }
 });
 
 export const notificationReducer = notificationSlice.reducer;

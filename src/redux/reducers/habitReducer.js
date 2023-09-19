@@ -40,24 +40,41 @@ export const addHabit = createAsyncThunk(
             habit.id = Math.floor(Date.now() / 1000)
             habit.title = args
             console.log(habit);
-            habit.days = []
-            for (let ind = 1; ind < 8; ind++) {
+            habit.days = {}
+            for (let ind = 7; ind > 0; ind--) {
                 const epochTimeInSeconds = Math.floor((new Date().getTime() - 24 * 60 * 60 * 1000 * ind) / 1000);
-
-                // Create an object with the epoch time as a key and 'None' as the value
-                const dayObject = {};
-                dayObject[epochTimeInSeconds] = 'None';
-
-                // Push the dayObject into the habit.days array
-                habit.days.push(dayObject);
+                // Push the dayObject into the habit.days
+                habit.days[epochTimeInSeconds] = 'None'
             }
             console.log(habit);
             thunkAPI.dispatch(habitsActions.add(habit));
-            thunkAPI.dispatch(habitsActions.setNotification({ success: 'Album added' }));
+            thunkAPI.dispatch(habitsActions.setNotification({ success: 'Habit added' }));
         } catch (error) {
             console.log(error);
-            thunkAPI.dispatch(habitsActions.setNotification({ error: 'Unable to Add Album' }));
+            thunkAPI.dispatch(habitsActions.setNotification({ error: 'Unable to Add Habit' }));
             return;
+        }
+    }
+);
+
+// Async action to update the status of a habit for a specific day
+export const updateHabitStatus = createAsyncThunk(
+    'habit/updateHabitStatus',
+    async (args, thunkAPI) => {
+        try {
+            // Payload should contain habitId, day, and newStatus
+
+            // Dispatch the updated habit to the Redux store
+            thunkAPI.dispatch(habitsActions.update(args));
+
+            // You can also dispatch a success notification if needed
+            thunkAPI.dispatch(habitsActions.setNotification({ success: 'Habit updated' }));
+        }
+        catch (error) {
+            console.error(error);
+            // Dispatch an error notification if the update fails
+            thunkAPI.dispatch(habitsActions.setNotification({ error: 'Unable to update habit' }));
+            throw error; // Propagate the error for error handling in components
         }
     }
 );
@@ -71,11 +88,10 @@ export const deleteHabit = createAsyncThunk(
         try {
 
             thunkAPI.dispatch(habitsActions.delete(args))
-            // console.log(args);
-            thunkAPI.dispatch(habitsActions.setNotification({ success: 'Album Deleted' }));
+            thunkAPI.dispatch(habitsActions.setNotification({ success: 'Habit Deleted' }));
         } catch (error) {
             console.log(error);
-            thunkAPI.dispatch(habitsActions.setNotification({ error: 'Unable to Delete Album' }));
+            thunkAPI.dispatch(habitsActions.setNotification({ error: 'Unable to Delete Habit' }));
         }
     }
 );
@@ -94,8 +110,19 @@ const habitsSlice = createSlice({
         },
         delete: (state, action) => {
             state.habits = state.habits.filter((habit) =>
-                (habit.id !== action.payload.id)
+                (habit.id !== action.payload)
             );
+        },
+        update: (state, action) => {
+            const { habitId, day, newStatus } = action.payload;
+
+            // Find the habit by ID
+            const habitToUpdate = state.habits.find((habit) => habit.id === habitId);
+            // console.log(habitToUpdate);
+            if (habitToUpdate) {
+                // Update the status of the specified day
+                habitToUpdate.days[day] = newStatus
+            }
         },
         setNotification: (state, action) => {
             state.message = true; // Set message flag to true to display a notification
@@ -103,7 +130,7 @@ const habitsSlice = createSlice({
     }
 });
 
-// Export the album reducer, actions, and selector
+// Export the Habit reducer, actions, and selector
 export const habitsReducer = habitsSlice.reducer
 export const habitsActions = habitsSlice.actions
 export const habitsSelector = (state) => state.habitsReducer
