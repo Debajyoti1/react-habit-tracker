@@ -14,7 +14,7 @@ const Habit = () => {
     return (<>
         <h1 className="text-center">Habits</h1>
         <div className={styles.habitsContainer}>
-            {habits.length==0 && <h3>No Habit Found</h3>}
+            {habits.length===0 && <h3>No Habit Found</h3>}
             {habits.map((h) =>
             (
                 <HabitItem key={h.id} habit={h} />)
