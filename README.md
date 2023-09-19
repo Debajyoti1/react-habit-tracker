@@ -1,3 +1,59 @@
+# Folder Structure
+
+```
+|   .gitignore
+|   package-lock.json
+|   package.json
+|   README.md
+|
++---public
+|       favicon.ico
+|       index.html
+|       logo192.png
+|       logo512.png
+|       manifest.json
+|       robots.txt
+|
+\---src
+    |   App.css
+    |   App.js
+    |   App.test.js
+    |   index.css
+    |   index.js
+    |   reportWebVitals.js
+    |   setupTests.js
+    |
+    +---components
+    |   +---AddHabit
+    |   |       AddHabit.js
+    |   |       AddHabit.module.css
+    |   |
+    |   +---DashBoard
+    |   |       DashBoard.js
+    |   |       DashBoard.module.css
+    |   |
+    |   +---Habits
+    |   |       Habit.js
+    |   |       Habit.module.css
+    |   |       HabitItem.js
+    |   |
+    |   \---NavBar
+    |           NavBar.js
+    |           NavBar.module.css
+    |
+    +---pages
+    |       Error404.js
+    |       Error404.module.css
+    |
+    \---redux
+        |   store.js
+        |
+        \---reducers
+                habitReducer.js
+                notoficationReducer.js
+
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
